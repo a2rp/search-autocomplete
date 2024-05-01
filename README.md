@@ -1,3 +1,7 @@
+
+![image](https://github.com/a2rp/search-autocomplete/assets/5670738/433f068b-a585-4bfd-abde-db4508805baf)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
