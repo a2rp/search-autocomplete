@@ -1,0 +1,98 @@
+*,
+::before,
+::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+
+    .main {
+        width: 100%;
+        max-width: 1440px;
+        padding: 15px;
+
+        .title {
+            margin-top: 15px;
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .searchContainer {
+            height: 50px;
+            margin-top: 30px;
+            position: relative;
+            max-width: 440px;
+            display: flex;
+            gap: 30px;
+            // border: 1px solid #f00;
+
+            .searchInputBox {
+            }
+
+            .outputSection {
+                position: absolute;
+                left: 110px;
+                top: 50px;
+                // border: 1px solid #000;
+                width: calc(100% - 110px);
+                max-height: 300px;
+                overflow: auto;
+
+                .searchedItem {
+                    background-color: #ddd;
+                    height: 30px;
+                    padding: 15px;
+                    display: flex;
+                    align-items: center;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: #ccc;
+                    }
+                }
+            }
+            .clearIcon {
+                position: absolute;
+                margin: auto;
+                top: 0;
+                bottom: 0;
+                right: -40px;
+            }
+        }
+
+        .products {
+            margin-top: 30px;
+
+            .allProductsTitle {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .product {
+                height: 30px;
+                display: flex;
+                align-items: center;
+                gap: 30px;
+
+                .id {
+                    width: 50px;
+                }
+                .brand {
+                    width: 100px;
+                }
+
+                .category {
+                    width: 200px;
+                }
+
+                .title {
+                }
+            }
+        }
+    }
+}
