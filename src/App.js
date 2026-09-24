@@ -1,17 +1,12 @@
-import React from 'react'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SearchAutoComplete from "./searchAutoComplete";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-const App = () => {
+export default function App() {
     return (
-        <div>
+        <>
             <SearchAutoComplete />
-
-            <ToastContainer />
-        </div>
-    )
+            <ToastContainer position="bottom-right" theme="dark" />
+        </>
+    );
 }
-
-export default App
-

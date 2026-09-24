@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "search-autocomplete",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +13,7 @@
     "axios": "^1.6.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.7.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
     "sass": "^1.76.0",
@@ -24,7 +25,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "npx --yes gh-pages -d build -b gh-pages"
+    "deploy": "npx --yes gh-pages -d build -b gh-pages",
+    "lint": "eslint src"
   },
   "eslintConfig": {
     "extends": [
@@ -43,5 +45,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://a2rp.github.io/search-autocomplete/"
 }

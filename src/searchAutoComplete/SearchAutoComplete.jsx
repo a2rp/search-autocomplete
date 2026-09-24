@@ -1,150 +1,153 @@
-import React, { useEffect, useState } from "react";
-import styles from "./styles.module.scss";
-import { FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
+import { FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa6";
+import { FiBookOpen, FiCoffee, FiGlobe, FiHeart, FiMail, FiMessageCircle, FiSearch, FiShoppingBag, FiX } from "react-icons/fi";
+import { CircularProgress, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
-import ClearIcon from '@mui/icons-material/Clear';
+import styles from "./styles.module.scss";
 
-const SearchAutoComplete = () => {
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchedProducts, setSearchedProducts] = useState([]);
-    const [products, setProducts] = useState([]);
-    const [searchBy, setSearchBy] = useState("Brand");
+const publicAsset = (name) => `${process.env.PUBLIC_URL || ""}/${name}`;
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const config = {
-                    method: "GET",
-                    url: "https://dummyjson.com/products?limit=10"
-                };
-                const response = await axios(config);
-                console.log(response, "response");
-                const data = response.data.products;
-                setProducts(products => data);
-            } catch (error) {
-                console.log(error, "error");
-                toast.error();
-            }
-        };
-        fetchData();
-        // }
-    }, []);
+const links = [
+    ["Portfolio", "https://www.ashishranjan.net/", FiGlobe],
+    ["GitHub", "https://github.com/a2rp", FiMessageCircle],
+    ["CodePen", "https://codepen.io/ash1198", FiMessageCircle],
+    ["LinkedIn", "https://www.linkedin.com/in/aashishranjan", FaLinkedinIn],
+    ["Facebook", "https://www.facebook.com/theash.ashish/", FaFacebookF],
+    ["YouTube", "https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1", FaYoutube],
+    ["Email", "mailto:ash.ranjan09@gmail.com", FiMail],
+];
 
-    useEffect(() => {
-        if (searchTerm.trim().length === 0) {
-            setSearchedProducts([]);
-            return;
-        }
+const supportLinks = [
+    ["Support", "https://a2rp-donation-page.netlify.app/", FiHeart],
+    ["Buy Me a Coffee", "https://buymeacoffee.com/a2rp", FiCoffee],
+    ["Patreon", "https://patreon.com/a2rp", FiBookOpen],
+];
 
-        const filteredData = products.filter(product => {
-            if (searchBy === "Brand") {
-                if (product.brand.toLowerCase().includes(searchTerm.toLowerCase())) {
-                    return product;
-                }
-            } else if (searchBy === "Category") {
-                if (product.category.toLowerCase().includes(searchTerm.toLowerCase())) {
-                    return product;
-                }
-            } else if (searchBy === "Title") {
-                if (product.title.toLowerCase().includes(searchTerm.toLowerCase())) {
-                    return product;
-                }
-            }
-            return null;
-        });
-        setSearchedProducts(searchedProducts => filteredData);
-    }, [searchTerm]);
-
-    const handleSearchedItemClick = (product) => {
-        // console.log(product, "product");
-        if (searchBy === "Brand") { setSearchTerm(product.brand) }
-        if (searchBy === "Catefory") { setSearchTerm(product.category) }
-        if (searchBy === "Title") { setSearchTerm(product.title) }
-    };
-
+function FooterLinks({ items }) {
     return (
-        <div className={styles.container}>
-            <div className={styles.main}>
-                <div className={styles.title}>Search Auto Complete</div>
-
-                <div className={styles.searchContainer}>
-                    <FormControl sx={{ width: "100px" }}>
-                        <InputLabel id="Search-by-select-label">Search by</InputLabel>
-                        <Select
-                            labelId="search-by-select-label"
-                            id="search-by-select"
-                            value={searchBy}
-                            label="Search by"
-                            onChange={event => setSearchBy(event.target.value)}
-                        >
-                            <MenuItem value={"Brand"}>Brand</MenuItem>
-                            <MenuItem value={"Category"}>Category</MenuItem>
-                            <MenuItem value={"Title"}>Title</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                    <TextField
-                        value={searchTerm}
-                        onChange={event => setSearchTerm(event.target.value)}
-                        label="Enter search term here"
-                        placeholder="Enter search term here"
-                        className={styles.searchInputBox}
-                        fullWidth
-                    />
-
-                    {searchTerm.length > 0 &&
-                        <Tooltip
-                            className={styles.clearIcon}
-                            title="Clear"
-                            onClick={() => setSearchTerm("")}
-                        >
-                            <IconButton>
-                                <ClearIcon />
-                            </IconButton>
-                        </Tooltip>
-                    }
-
-                    <div className={`${styles.outputSection} outputSection`}>
-                        {searchedProducts && searchedProducts.map(item => (
-                            <div
-                                key={item.id}
-                                className={`${styles.searchedItem} searchedItem`}
-                                onClick={() => handleSearchedItemClick(item)}
-                            >
-                                {searchBy === "Brand" && item.brand}
-                                {searchBy === "Category" && item.category}
-                                {searchBy === "Title" && item.title}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {products && <>
-                    <div className={styles.products}>
-                        <div className={styles.allProductsTitle}>All products</div>
-                        {products.map(product => (
-                            <div className={styles.product} key={product.id}>
-                                <div className={styles.id}>
-                                    <b>Id</b>: {product.id}
-                                </div>
-                                <div className={styles.brand}>
-                                    <b>Brand</b>: {product.brand}
-                                </div>
-                                <div className={styles.category}>
-                                    <b>Category</b>: {product.category}
-                                </div>
-                                <div className={styles.productTitle}>
-                                    <b>Title</b>: {product.title}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </>}
-            </div>
+        <div className={styles.iconLinks}>
+            {items.map(([label, href, Icon]) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} title={label}>
+                    <Icon aria-hidden="true" />
+                </a>
+            ))}
         </div>
-    )
+    );
 }
 
-export default SearchAutoComplete
+function SearchAutoComplete() {
+    const [searchTerm, setSearchTerm] = useState("");
+    const [products, setProducts] = useState([]);
+    const [searchBy, setSearchBy] = useState("Brand");
+    const [isLoading, setIsLoading] = useState(true);
+    const [hasFocus, setHasFocus] = useState(false);
 
+    useEffect(() => {
+        const controller = new AbortController();
+
+        const fetchProducts = async () => {
+            try {
+                const response = await axios.get("https://dummyjson.com/products?limit=30", { signal: controller.signal });
+                setProducts(response.data?.products || []);
+            } catch (error) {
+                if (error.name !== "CanceledError") {
+                    toast.error("Products could not be loaded.");
+                }
+            } finally {
+                if (!controller.signal.aborted) setIsLoading(false);
+            }
+        };
+
+        fetchProducts();
+        return () => controller.abort();
+    }, []);
+
+    const searchResults = useMemo(() => {
+        const term = searchTerm.trim().toLowerCase();
+        if (!term) return [];
+
+        return products.filter((product) => String(product[searchBy.toLowerCase()] || "").toLowerCase().includes(term)).slice(0, 8);
+    }, [products, searchBy, searchTerm]);
+
+    const selectedProductValue = (product) => String(product[searchBy.toLowerCase()] || "");
+
+    return (
+        <div className={styles.page}>
+            <header className={styles.header}>
+                <a className={styles.brand} href="#top" aria-label="Search autocomplete home">
+                    <img src={publicAsset("logo.png")} alt="" />
+                    <span><small>A2RP LAB</small>Search Autocomplete</span>
+                </a>
+                <div className={styles.headerNote}><FiShoppingBag aria-hidden="true" /> Product explorer</div>
+            </header>
+
+            <main className={styles.main} id="top">
+                <section className={styles.hero}>
+                    <div>
+                        <p className={styles.kicker}>SEARCH PATTERN</p>
+                        <h1>Find products as you type.</h1>
+                        <p className={styles.intro}>Choose a field, enter a search term, and select a matching product suggestion from the live result list.</p>
+                    </div>
+                    <div className={styles.heroBadge}><FiSearch aria-hidden="true" /><strong>{products.length || "..."}</strong><span>products ready</span></div>
+                </section>
+
+                <section className={styles.searchCard} aria-label="Product search">
+                    <div className={styles.cardHeading}>
+                        <div><p className={styles.panelLabel}>LIVE FILTER</p><h2>Search the catalogue</h2></div>
+                        {isLoading && <CircularProgress size={22} />}
+                    </div>
+                    <div className={styles.searchRow}>
+                        <FormControl className={styles.selectControl} size="small">
+                            <InputLabel id="search-by-label">Search by</InputLabel>
+                            <Select labelId="search-by-label" value={searchBy} label="Search by" onChange={(event) => { setSearchBy(event.target.value); setSearchTerm(""); }}>
+                                <MenuItem value="Brand">Brand</MenuItem>
+                                <MenuItem value="Category">Category</MenuItem>
+                                <MenuItem value="Title">Title</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <div className={styles.inputWrap}>
+                            <TextField value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} onFocus={() => setHasFocus(true)} onBlur={() => setTimeout(() => setHasFocus(false), 120)} label={`Search by ${searchBy.toLowerCase()}`} placeholder={`Try a ${searchBy.toLowerCase()}`} fullWidth size="small" />
+                            {searchTerm && <Tooltip title="Clear"><IconButton className={styles.clearButton} size="small" onMouseDown={(event) => event.preventDefault()} onClick={() => setSearchTerm("")} aria-label="Clear search"><FiX /></IconButton></Tooltip>}
+                            {hasFocus && searchTerm.trim() && (
+                                <div className={styles.results} role="listbox" aria-label="Search suggestions">
+                                    {searchResults.length ? searchResults.map((product) => (
+                                        <button type="button" key={product.id} onMouseDown={(event) => event.preventDefault()} onClick={() => { setSearchTerm(selectedProductValue(product)); setHasFocus(false); }} role="option" aria-selected={selectedProductValue(product) === searchTerm}>
+                                            <span>{selectedProductValue(product)}</span><small>#{product.id}</small>
+                                        </button>
+                                    )) : <div className={styles.noResults}>No matching products</div>}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <p className={styles.helper}><FiSearch aria-hidden="true" /> Suggestions update from the selected field.</p>
+                </section>
+
+                <section className={styles.catalogue}>
+                    <div className={styles.sectionHeading}><div><p className={styles.kicker}>CATALOGUE</p><h2>All products</h2></div><span>{products.length} results</span></div>
+                    {isLoading ? <div className={styles.emptyState}><CircularProgress size={26} /><p>Loading products...</p></div> : (
+                        <div className={styles.productGrid}>
+                            {products.map((product) => (
+                                <article className={styles.product} key={product.id}>
+                                    <div className={styles.productImage}>{product.thumbnail ? <img src={product.thumbnail} alt="" loading="lazy" /> : <FiShoppingBag aria-hidden="true" />}</div>
+                                    <div className={styles.productMeta}><span>#{product.id}</span><span>{product.category}</span></div>
+                                    <h3>{product.title}</h3>
+                                    <p>{product.brand || "Independent brand"}</p>
+                                </article>
+                            ))}
+                        </div>
+                    )}
+                </section>
+            </main>
+
+            <footer className={styles.footer}>
+                <div className={styles.footerMain}>
+                    <div className={styles.footerTop}><strong>Simple search, faster discovery.</strong><span>Copyright © {new Date().getFullYear()} <a href="https://www.ashishranjan.net/" target="_blank" rel="noopener noreferrer">Ashish Ranjan</a></span></div>
+                    <div className={styles.footerGroups}><div><span>Connect</span><FooterLinks items={links} /></div><div><span>Support</span><FooterLinks items={supportLinks} /></div></div>
+                </div>
+            </footer>
+        </div>
+    );
+}
+
+export default SearchAutoComplete;
