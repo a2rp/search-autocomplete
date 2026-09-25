@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa6";
-import { FiBookOpen, FiCoffee, FiGlobe, FiHeart, FiMail, FiMessageCircle, FiSearch, FiShoppingBag, FiX } from "react-icons/fi";
+import { FaCodepen, FaFacebookF, FaLinkedinIn, FaYoutube } from "react-icons/fa6";
+import { FiBookOpen, FiCoffee, FiGithub, FiGlobe, FiHeart, FiMail, FiSearch, FiArrowUp, FiShoppingBag, FiX } from "react-icons/fi";
 import { CircularProgress, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Tooltip } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -10,8 +10,8 @@ const publicAsset = (name) => `${process.env.PUBLIC_URL || ""}/${name}`;
 
 const links = [
     ["Portfolio", "https://www.ashishranjan.net/", FiGlobe],
-    ["GitHub", "https://github.com/a2rp", FiMessageCircle],
-    ["CodePen", "https://codepen.io/ash1198", FiMessageCircle],
+    ["GitHub", "https://github.com/a2rp", FiGithub],
+    ["CodePen", "https://codepen.io/ash1198", FaCodepen],
     ["LinkedIn", "https://www.linkedin.com/in/aashishranjan", FaLinkedinIn],
     ["Facebook", "https://www.facebook.com/theash.ashish/", FaFacebookF],
     ["YouTube", "https://www.youtube.com/@ashishranjan-ashz?sub_confirmation=1", FaYoutube],
@@ -146,6 +146,9 @@ function SearchAutoComplete() {
                     <div className={styles.footerGroups}><div><span>Connect</span><FooterLinks items={links} /></div><div><span>Support</span><FooterLinks items={supportLinks} /></div></div>
                 </div>
             </footer>
+        <button className={styles.goTop} type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Scroll to top" title="Scroll to top">
+            <FiArrowUp aria-hidden="true" />
+        </button>
         </div>
     );
 }

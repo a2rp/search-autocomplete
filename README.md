@@ -8,7 +8,7 @@ A responsive React product explorer with field-based search suggestions.
 - Search by brand, category, or title
 - Selectable autocomplete suggestions with clear search control
 - Responsive product cards with loading and empty states
-- Fixed branded header and icon-only footer links
+- Fixed branded header, floating go-top control, and icon-only footer links
 
 ## Tech stack
 
